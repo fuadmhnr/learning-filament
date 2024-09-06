@@ -45,6 +45,14 @@ class DepartmentResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('employees_count')
+                    ->label('Total Employees')
+                    ->counts('employees')
+                    ->formatStateUsing(function (string $state): string {
+                        $count = (int) $state;
+                        $suffix = $count === 1 ? 'Person' : 'Persons';
+                        return "{$count} {$suffix}";
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
